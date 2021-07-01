@@ -10,7 +10,7 @@
  *
  */
 import { Injectable } from '@angular/core';
-import { CordovaCheck, IonicNativePlugin, Plugin } from '@ionic-native/core';
+import { CordovaCheck, IonicNativePlugin, Plugin, checkAvailability, CordovaInstance } from '@ionic-native/core';
 
 /**
  * @name cordova-plugin-twiliovoicesdk
@@ -29,7 +29,7 @@ import { CordovaCheck, IonicNativePlugin, Plugin } from '@ionic-native/core';
 @Plugin({
   pluginName: 'cordova-plugin-twiliovoicesdk',
   plugin: 'cordova-plugin-twiliovoicesdk', // npm package name, example: cordova-plugin-camera
-  pluginRef: 'twiliovoicesdk', // the variable reference to call the plugin, example: navigator.geolocation
+  pluginRef: 'TwilioPlugin.TwilioVoiceClient', // the variable reference to call the plugin, example: navigator.geolocation
   repo: 'https://github.com/jefflinwood/cordova-plugin-twiliovoicesdk.git', // the github repository URL for the plugin
   platforms: ['Android', 'iOS'], // Array of platforms supported, example: ['Android', 'iOS']
 })
@@ -41,8 +41,32 @@ export class CordovaPluginTwilioVoiceSdk extends IonicNativePlugin {
    * specific configurations
    * @return {Promise<any>} Returns a promise that resolves when plugin loads and we have a window.Twilio
    */
-  @CordovaCheck()
+
+  create(): TwilioVoiceSDKObject {
+    return new TwilioVoiceSDKObject();
+  }
+}
+
+@Plugin({
+  plugin: 'cordova-plugin-twiliovoicesdk',
+  pluginName: 'cordova-plugin-twiliovoicesdk',
+})
+export class TwilioVoiceSDKObject {
+  private _objectInstance: any;
+  constructor() {
+    if (
+      checkAvailability(
+        CordovaPluginTwilioVoiceSdk.getPluginRef(),
+        null,
+        CordovaPluginTwilioVoiceSdk.getPluginName()
+      ) === true
+    ) {
+      this._objectInstance = new (CordovaPluginTwilioVoiceSdk.getPlugin())();
+    }
+  }
+
+  @CordovaInstance()
   load(): Promise<any> {
-    return; // We add return; here to avoid any IDE / Compiler errors
+    return;
   }
 }
