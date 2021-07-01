@@ -30,7 +30,7 @@ import { CordovaCheck, IonicNativePlugin, Plugin, checkAvailability, CordovaInst
   pluginName: 'cordova-plugin-twiliovoicesdk',
   plugin: 'cordova-plugin-twiliovoicesdk', // npm package name, example: cordova-plugin-camera
   pluginRef: 'TwilioPlugin.TwilioVoiceClient', // the variable reference to call the plugin, example: navigator.geolocation
-  repo: 'https://github.com/jefflinwood/cordova-plugin-twiliovoicesdk.git', // the github repository URL for the plugin
+  repo: 'https://github.com/jefflinwood/cordova-plugin-twiliovoicesdk', // the github repository URL for the plugin
   platforms: ['Android', 'iOS'], // Array of platforms supported, example: ['Android', 'iOS']
 })
 @Injectable()
@@ -61,7 +61,8 @@ export class TwilioVoiceSDKObject {
         CordovaPluginTwilioVoiceSdk.getPluginName()
       ) === true
     ) {
-      this._objectInstance = new (CordovaPluginTwilioVoiceSdk.getPlugin())();
+      // @ts-ignore
+      this._objectInstance = window.Twilio.TwilioVoiceClient;
     }
   }
 
