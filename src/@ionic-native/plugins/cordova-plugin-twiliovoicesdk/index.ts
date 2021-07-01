@@ -10,15 +10,7 @@
  *
  */
 import { Injectable } from '@angular/core';
-import {
-  Plugin,
-  Cordova,
-  CordovaProperty,
-  CordovaInstance,
-  InstanceProperty,
-  IonicNativePlugin,
-} from '@ionic-native/core';
-import { Observable } from 'rxjs';
+import { CordovaCheck, IonicNativePlugin, Plugin } from '@ionic-native/core';
 
 /**
  * @name cordova-plugin-twiliovoicesdk
@@ -39,8 +31,6 @@ import { Observable } from 'rxjs';
   plugin: 'cordova-plugin-twiliovoicesdk', // npm package name, example: cordova-plugin-camera
   pluginRef: 'twiliovoicesdk', // the variable reference to call the plugin, example: navigator.geolocation
   repo: 'https://github.com/jefflinwood/cordova-plugin-twiliovoicesdk.git', // the github repository URL for the plugin
-  install: '', // OPTIONAL install command, in case the plugin requires variables
-  installVariables: [], // OPTIONAL the plugin requires variables
   platforms: ['Android', 'iOS'], // Array of platforms supported, example: ['Android', 'iOS']
 })
 @Injectable()
@@ -51,7 +41,7 @@ export class CordovaPluginTwilioVoiceSdk extends IonicNativePlugin {
    * specific configurations
    * @return {Promise<any>} Returns a promise that resolves when plugin loads and we have a window.Twilio
    */
-  @Cordova()
+  @CordovaCheck()
   load(): Promise<any> {
     return; // We add return; here to avoid any IDE / Compiler errors
   }
